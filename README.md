@@ -1,7 +1,6 @@
 # Strength-and-Shape
 Progressive overload, macro and progress tracker for the gym in a simplistic set up. 
-[index.html](https://github.com/user-attachments/files/26449992/index.html)
-<!DOCTYPE html>
+[index (1).html](https://github.com/user-attachments/files/26450126/index.1.html)
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -11,6 +10,15 @@ Progressive overload, macro and progress tracker for the gym in a simplistic set
   <meta name="apple-mobile-web-app-title" content="Strength & Shape" />
   <meta name="theme-color" content="#0e0c0a" />
   <title>Strength & Shape</title>
+  <link rel="manifest" href="data:application/json,{
+    &quot;name&quot;:&quot;Strength %26 Shape&quot;,
+    &quot;short_name&quot;:&quot;S%26S&quot;,
+    &quot;start_url&quot;:&quot;.&quot;,
+    &quot;display&quot;:&quot;standalone&quot;,
+    &quot;background_color&quot;:&quot;%230e0c0a&quot;,
+    &quot;theme_color&quot;:&quot;%230e0c0a&quot;,
+    &quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%230e0c0a'/%3E%3Ccircle cx='96' cy='96' r='70' fill='none' stroke='%23c8a882' stroke-width='8'/%3E%3Ctext x='96' y='112' text-anchor='middle' font-size='64' fill='%23c8a882'%3E💪%3C/text%3E%3C/svg%3E&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]
+  }" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -467,6 +475,24 @@ function switchTab(tab) {
 }
 
 init();
+
+// PWA install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.createElement('div');
+  banner.id = 'install-banner';
+  banner.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#c8a882;color:#0e0c0a;padding:12px 24px;border-radius:24px;font-family:DM Mono,monospace;font-size:13px;cursor:pointer;z-index:999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4)';
+  banner.textContent = '＋ Add to Home Screen';
+  banner.onclick = async () => {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    banner.remove();
+    deferredPrompt = null;
+  };
+  document.body.appendChild(banner);
+});
 </script>
 </body>
 </html>
